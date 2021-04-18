@@ -6,7 +6,7 @@
 .register-photo .image-holder {
   display: table-cell;
   width: auto;
-  background: url('/assets/img/dd.jpg');
+  background: url('https://i.pinimg.com/originals/67/fa/b3/67fab3877e2e04da56b257081a8a77b9.jpg');
   background-size: cover;
 }
 
