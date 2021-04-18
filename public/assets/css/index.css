@@ -1,0 +1,22 @@
+.bg-image {
+  background-image: url("https://images.app.goo.gl/fTCRLDagdFykrkhf9");
+  background-repeat: no-repeat;
+  background-size: cover;
+ 
+}
+.validity-error {
+  background-color: pink;
+}
+.notify-error {
+  display: none;
+  color:pink;
+  margin-top: 5px;
+  font-size: 13px;
+}
+.img-avatar {
+  height: 120px;
+  width: 150px;
+}
+.input {
+  width: 100px;
+}

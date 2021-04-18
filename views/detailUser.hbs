@@ -1,0 +1,22 @@
+<div class="card container-fluid" style="margin-top:100px">
+
+    <div class="card-body">
+        <h5 class="card-title">UserName: <b>{{user.userName}}</b> </h5>
+        <p class="card-text">Email: <b>{{user.email}}</b> </p>
+        <p class="card-text">Birth Day: <b>{{user.birthDay}}</b> </p>
+        <p class="card-text">Gender: <b>{{user.gender}}</b> </p>
+        <p class="card-text">Hobbies: <b>{{user.hobbies}}</b> </p>
+        <p class="card-text">Description: <b>{{user.description}}</b></p>
+    </div>
+</div>
+<div class="container-fluid my-3">
+    <div class="row">
+        <h2>Avatar</h2>
+    </div>
+    <div class="row">
+        {{#each avatars}}
+        <img src="{{this}}" height="300px" class="col-3" alt="" srcset="">
+        {{/each}}
+    </div>
+
+</div>
