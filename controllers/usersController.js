@@ -24,6 +24,14 @@ var upload = multer({
   },
 }).array("avatars");
 
+function statusCode(code = undefined, message = undefined, data = undefined) {
+  return (baseJson = {
+    code: code,
+    message: message,
+    data: data,
+  });
+}
+
 class UsersController {
   readUsers(req, res, next) {
     userSchema.find({}, function (err, users) {
@@ -121,6 +129,93 @@ class UsersController {
       }
     );
   }
+
+  readUsersApi(req, res, next) {
+    userSchema.find({}, function (err, users) {
+      if (err) {
+        return res.json(statusCode(500, "Server Error", err));
+      }
+      res.json(statusCode(200, "Success", users));
+    });
+  }
+
+  insertUserApi(req, res, next) {
+    upload(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        res.send(err);
+      } else if (err) {
+        res.json(statusCode(400, err));
+      } else {
+        const user = new userSchema({
+          userName: req.body.userName,
+          password: req.body.password,
+          birthDay: req.body.birthDay,
+          email: req.body.email,
+          gender: req.body.gender,
+          hobbies: req.body.hobbies,
+          description: req.body.description,
+          avatars: req.files.map((file) => "upload/" + file.filename),
+        });
+        user.save(function (err) {
+          if (err) res.json(statusCode(500, "Server Error", err));
+          else res.json(statusCode(200, "Success", user));
+        });
+      }
+    });
+  }
+
+  updateUserApi(req, res, next) {
+    upload(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        res.send(err);
+      } else if (err) {
+        res.json(statusCode(400, err));
+      } else {
+        var update = {
+          userName: req.body.userName,
+          password: req.body.password,
+          birthDay: req.body.birthDay,
+          email: req.body.email,
+          gender: req.body.gender,
+          hobbies: req.body.hobbies,
+          description: req.body.description,
+          avatars: req.files.map((file) => "upload/" + file.filename),
+        };
+        userSchema
+          .findByIdAndUpdate(mongoose.Types.ObjectId(req.body.id), update)
+          .then(function (user) {
+            if (user) {
+              res.json(statusCode(200, "Success", user));
+            } else {
+              res.json(statusCode(404, "Not Found", err));
+            }
+          })
+          .catch((err) => {
+            res.json(statusCode(500, "Server Error", err));
+          });
+      }
+    });
+  }
+
+  deleteUserApi(req, res, next) {
+    userSchema.deleteOne({ _id: req.body._id }, function (err, user) {
+      return err
+        ? res.json(statusCode(404, "Not Found", err))
+        : res.json(statusCode(200, "Success", user));
+    });
+  }
+
+  findUserApi(req, res, next) {
+    userSchema.findById(
+      mongoose.Types.ObjectId(req.body._id),
+      function (err, user) {
+        return err
+          ? res.json(statusCode(404, "Not Found", err))
+          : res.json(statusCode(200, "Success", user));
+      }
+    );
+  }
+
 }
 
 module.exports = new UsersController();
