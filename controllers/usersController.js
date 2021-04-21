@@ -22,7 +22,7 @@ var upload = multer({
     }
     cb("Only image files (jpg,gif,png) are accepted!", false);
   },
-}).array("avatars");
+}).array("avatars",10);
 
 function statusCode(code = undefined, message = undefined, data = undefined) {
   return (baseJson = {
